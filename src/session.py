@@ -32,8 +32,6 @@ def get_session():
         url="https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https%3A%2F%2Fcloud.timeedit.net%2Fliu%2Fweb%2Fwr_stud%2F"
     )
 
-    print(res.url)
-
     soup = BeautifulSoup(res.text, "html.parser")
     tag = soup.select_one('input[name="SAMLResponse"]')
     saml_response = tag.get("value") if tag else None

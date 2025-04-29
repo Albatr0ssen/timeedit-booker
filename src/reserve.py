@@ -72,13 +72,16 @@ def reserve(
                 error_text = res.text
                 no_bookable_hours = "Bokningen kunde ej genomföras.  Användarens maximala bokningslängd har överskridits"
                 not_available = "Bokningen kunde ej genomföras.  Tiden är upptagen eftersom objektet"
-                out_of_range = "Bokningen kunde ej genomföras.  Bokningen är utanför datumgränserna"
+                out_of_range_date = "Bokningen kunde ej genomföras.  Bokningen är utanför datumgränserna"
+                out_of_range_time = "Time not in date range"
                 if error_text.startswith(no_bookable_hours):
                     print("No bookable hours")
                 elif error_text.startswith(not_available):
                     print("Room not available")
-                elif error_text.startswith(out_of_range):
+                elif error_text.startswith(out_of_range_date):
                     print("Time not in date range")
+                elif error_text.startswith(out_of_range_time):
+                    print("Time not in time range")
                 else:
                     print("Unkown 409 error", res.text)
             case _:

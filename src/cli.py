@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from pynput import keyboard
 from requests import Session
 
 from src.ids import get_room_ids, get_user_id  # pyright:ignore[reportUnusedImport]

@@ -17,7 +17,7 @@ end_time = "12:00"
 def main():
     session = get_session()
     # root(session)
-    # print(f"Trying to resrve '{room_search}': {date} {start_time}-{end_time}")
+    print(f"Trying to resrve '{room_search}': {date} {start_time}-{end_time}")
     reserve_at_22(session, room_search, date, start_time, end_time)
     # # rooms = get_room_ids(session, "Fe")
     # print(get_user_id(session))

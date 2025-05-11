@@ -12,3 +12,4 @@ wheels/
 # Other
 cookies.txt
 min.js
+.env

@@ -30,7 +30,7 @@ def boka(session: Session):
     start_time = f"{start_hour}:15"
     end_time = f"{end_hour}:00"
 
-    reserve(session, room, date, start_time, end_time)
+    reserve(session, [room], date, start_time, end_time)
 
 
 def get_time(prompt: str):

@@ -1,3 +1,6 @@
+from requests.models import Response
+
+
 from http.cookiejar import MozillaCookieJar
 import os
 import requests
@@ -40,15 +43,39 @@ def get_session():
     return session
 
 
+def get_MSISAuth(session: Session):
+    res: Response = session.get(
+        "https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https://cloud.timeedit.net/liu/web/wr_stud/"
+    )
+
+    soup = BeautifulSoup(res.text, "html.parser")
+    tag = soup.select_one("#loginFormPaginated")
+    path = tag.get("action") if tag else None
+    adfs_url = "https://fs.liu.se" + str(path)
+
+    username = os.getenv("LIU_USERNAME")
+    password = os.getenv("LIU_PASSWORD")
+
+    if username == None or password == None:
+        raise SystemExit("LIU_USERNAME or LIU_PASSWORD not set")
+
+    res = session.post(
+        adfs_url,
+        data={
+            "UserName": username,
+            "Password": password,
+            "AuthMethod": "FormsAuthentication",
+            "Kmsi": "true",
+        },
+    )
+
+
 def authenticate_session(session: Session):
     if session.cookies.get("MSISAuth") == None:
-        msis_auth: str = input("MSISAuth: ")
-        _ = session.cookies.set(  # pyright:ignore[reportUnknownMemberType]
-            name="MSISAuth", value=msis_auth
-        )
+        get_MSISAuth(session)
 
     res = session.get(
-        url="https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https%3A%2F%2Fcloud.timeedit.net%2Fliu%2Fweb%2Fwr_stud%2F"
+        url="https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https://cloud.timeedit.net/liu/web/wr_stud/"
     )
 
     soup = BeautifulSoup(res.text, "html.parser")

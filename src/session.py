@@ -9,7 +9,7 @@ from requests import Session
 from bs4 import BeautifulSoup
 
 
-def get_session():
+async def get_session():
     session = requests.session()
 
     session.headers = {

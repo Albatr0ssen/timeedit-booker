@@ -1,3 +1,4 @@
+from datetime import datetime
 from requests.models import Response
 
 
@@ -73,6 +74,10 @@ def get_MSISAuth(session: Session):
 def authenticate_session(session: Session):
     if session.cookies.get("MSISAuth") == None:
         get_MSISAuth(session)
+        if session.cookies.get("MSISAuth") == None:
+            raise SystemExit(
+                datetime.today().strftime("%Y-%m-%d %H:%M:%S"), "Failed to get MSISAuth"
+            )
 
     res = session.get(
         url="https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https://cloud.timeedit.net/liu/web/wr_stud/"

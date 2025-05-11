@@ -31,7 +31,8 @@ def reserve(
     end_time: str,
 ) -> None:
     for room_search in room_searches:
-        reserve_a_room(session, room_search, date, start_time, end_time)
+        if reserve_a_room(session, room_search, date, start_time, end_time):
+            return
 
 
 def reserve_a_room(
@@ -75,7 +76,7 @@ def reserve_a_room(
             print(
                 f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] Successfully booked {room.name} {start_time}-{end_time}"
             )
-            return
+            return True
 
         print(f"Failed to book {room.name}", res.status_code, res.reason)
         match (res.status_code):
@@ -97,3 +98,5 @@ def reserve_a_room(
                     print("Unkown 409 error", res.text)
             case _:
                 raise Exception("Unkown response trying to reserve, session expired?")
+
+    return False

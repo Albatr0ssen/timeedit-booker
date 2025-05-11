@@ -8,7 +8,7 @@ from .ids import get_room_ids, get_user_id
 
 def reserve_at_22(
     session: requests.Session,
-    room_search: str,
+    room_searches: list[str],
     date: str,
     start_time: str,
     end_time: str,
@@ -20,10 +20,21 @@ def reserve_at_22(
         raise Exception("Already after 22")
     print(f"Sleeping for {time_till_22} sec")
     sleep(time_till_22)
-    reserve(session, room_search, date, start_time, end_time)
+    reserve(session, room_searches, date, start_time, end_time)
 
 
 def reserve(
+    session: requests.Session,
+    room_searches: list[str],
+    date: str,
+    start_time: str,
+    end_time: str,
+) -> None:
+    for room_search in room_searches:
+        reserve_a_room(session, room_search, date, start_time, end_time)
+
+
+def reserve_a_room(
     session: requests.Session,
     room_search: str,
     date: str,

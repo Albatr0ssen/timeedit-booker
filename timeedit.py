@@ -8,17 +8,17 @@ from src.session import get_session
 # 48h? 44h?
 # Starting 2025-04-27 ca 19:00
 
-room_search = "fe244"
-date = "20250501"
-start_time = "10:15"
-end_time = "12:00"
+room_searches = ["sh603", "sh6", "sh"]
+date = "20250513"
+start_time = "08:15"
+end_time = "10:00"
 
 
 def main():
     session = get_session()
     # root(session)
-    print(f"Trying to resrve '{room_search}': {date} {start_time}-{end_time}")
-    reserve_at_22(session, room_search, date, start_time, end_time)
+    print(f"Trying to resrve '{room_searches}': {date} {start_time}-{end_time}")
+    reserve_at_22(session, room_searches, date, start_time, end_time)
     # # rooms = get_room_ids(session, "Fe")
     # print(get_user_id(session))
 

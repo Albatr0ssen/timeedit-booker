@@ -2,26 +2,28 @@ from dotenv import load_dotenv
 import asyncio
 
 from src.helpers import print_response  # pyright:ignore[reportUnusedImport]
-from src.ids import get_room_ids, get_user_id  # pyright:ignore[reportUnusedImport]
+from src.objects import get_rooms, get_user_id  # pyright:ignore[reportUnusedImport]
 from src.reserve import (
     reserve,  # pyright:ignore[reportUnusedImport]
     reserve_at_22,  # pyright:ignore[reportUnusedImport]
+    reserve_when_available,
 )
 
 # A timeedit session lasts for 30 minutes
 # How long does a MSISAuth last?
 # 48h? 44h?
 
-room_searches = ["sh603", "sh6", "sh"]
-date = "20250511"
-start_time = "20:15"
-end_time = "21:00"
+room_searches = ["fe245", "fe", "sh"]
+date = "20250514"
+start_time = "10:15"
+end_time = "12:00"
 
 
 async def main():
     print(f"Trying to resrve '{room_searches}': {date} {start_time}-{end_time}")
-    await reserve(room_searches, date, start_time, end_time)
-    # # rooms = get_room_ids(session, "Fe")
+    # await reserve_at_22(room_searches, date, start_time, end_time)
+    await reserve_when_available("isy", "20250513", "08:15", "10:00")
+    # rooms = get_room_ids(session, "Fe")
     # print(get_user_id(session))
 
 

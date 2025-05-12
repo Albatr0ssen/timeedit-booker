@@ -31,4 +31,6 @@ Exempel på något
 Något annat
 - https://cloud.timeedit.net/liu/web/wr_stud/ri.html?h=t&sid=4&objects=510070.195%2C510073.195%2C510074.195%2C510076.195%2C510079.195%2C598024.195%2C598070.195%2C598071.195%2C264253.195%2C264280.195%2C264281.195%2C264457.195%2C264459.195%2C264461.195%2C264463.195%2C264477.195%2C264478.195%2C264479.195%2C264480.195%2C264481.195%2C264482.195%2C264497.195%2C264499.195%2C553662.195%2C553663.195%2C546745.195%2C546746.195%2C264562.195%2C264563.195%2C&ox=0&types=0&fe=0&part=f&tg=-1&se=f&exw=t&rr=1
 
-
+Hämta json med rum lediga mellan tider
+- https://cloud.timeedit.net/liu/web/wr_stud/objects.json?max=50&fr=f&part=t&partajax=t&im=f&step=1&sid=4&l=sv_SE&ohg=0&types=195&subtypes=230&fe=23.Valla&fe=160.Studbok-grupprum-24h&dates=20250513-20250513&starttime=8:0&endtime=10:0
+- https://cloud.timeedit.net/liu/web/wr_stud/objects.json?max=50&fr=f&part=t&partajax=t&im=f&step=1&sid=4&l=sv_SE&ohg=0&types=195&subtypes=230&fe=23.Valla&fe=160.Studbok-grupprum-24h&dates=20250513-20250513&starttime=8:0&endtime=10:0

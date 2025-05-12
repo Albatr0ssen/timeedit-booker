@@ -1,12 +1,12 @@
 from datetime import datetime
 from requests.models import Response
-
-
 from http.cookiejar import MozillaCookieJar
 import os
 import requests
 from requests import Session
 from bs4 import BeautifulSoup
+
+from .helpers import print_response
 
 
 async def get_session():
@@ -44,7 +44,7 @@ async def get_session():
     return session
 
 
-def get_MSISAuth(session: Session):
+def set_MSISAuth(session: Session):
     res: Response = session.get(
         "https://cloud.timeedit.net/liu/web/timeedit/sso/liu_stud_saml2?back=https://cloud.timeedit.net/liu/web/wr_stud/"
     )
@@ -70,11 +70,15 @@ def get_MSISAuth(session: Session):
         },
     )
 
+    return res
+
 
 def authenticate_session(session: Session):
     if session.cookies.get("MSISAuth") == None:
-        get_MSISAuth(session)
+        res = set_MSISAuth(session)
         if session.cookies.get("MSISAuth") == None:
+            print_response(res)
+            print(res.text)
             raise SystemExit(
                 datetime.today().strftime("%Y-%m-%d %H:%M:%S"), "Failed to get MSISAuth"
             )

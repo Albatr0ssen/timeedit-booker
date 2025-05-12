@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from requests import Session
 
-from src.ids import get_room_ids, get_user_id  # pyright:ignore[reportUnusedImport]
+from src.objects import get_rooms, get_user_id  # pyright:ignore[reportUnusedImport]
 from src.reserve import reserve, reserve_at_22  # pyright:ignore[reportUnusedImport]
 from src.session import get_session
 

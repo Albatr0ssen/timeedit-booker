@@ -1,11 +1,17 @@
 import asyncio
+import random
 from time import sleep
 import requests
 from datetime import datetime
 
 from .session import get_session
 from .helpers import print_response  # pyright:ignore[reportUnusedImport]
-from .ids import get_room_ids, get_user_id
+from .objects import (
+    Room,
+    get_rooms,
+    get_user_id,
+    wait_for_reservable_room,
+)
 
 
 async def reserve_at_22(
@@ -32,15 +38,16 @@ async def reserve(
 ) -> None:
     session = await asyncio.create_task(get_session())
     for room_search in room_searches:
+        rooms = get_rooms(session, room_search)
         if await asyncio.create_task(
-            reserve_a_room(session, room_search, date, start_time, end_time)
+            reserve_a_room(session, rooms, date, start_time, end_time)
         ):
             return
 
 
 async def reserve_a_room(
     session: requests.Session,
-    room_search: str,
+    rooms: list[Room],
     date: str,
     start_time: str,
     end_time: str,
@@ -56,9 +63,8 @@ async def reserve_a_room(
         raise SystemExit("CSTT", cstt_res.status_code, cstt_res.reason)
 
     cstt = cstt_res.text
-    print("CSTT", cstt)
+    # print("CSTT", cstt)
 
-    rooms = get_room_ids(session, room_search)
     user_id = get_user_id(session)
 
     for room in rooms:
@@ -103,3 +109,11 @@ async def reserve_a_room(
                 raise Exception("Unkown response trying to reserve, session expired?")
 
     return False
+
+
+async def reserve_when_available(
+    search_text: str, date: str, start_time: str, end_time: str
+):
+    room = await wait_for_reservable_room(search_text, date, start_time, end_time)
+    session = await get_session()
+    _ = await reserve_a_room(session, [room], date, start_time, end_time)

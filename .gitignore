@@ -13,3 +13,4 @@ wheels/
 cookies.txt
 .env
 debug/
+data/

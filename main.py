@@ -1,13 +1,12 @@
 from typing import Annotated
-from fastapi import FastAPI, HTTPException, Request, status
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
+from fastapi import Depends, FastAPI, Form, HTTPException, Response, status
+from pydantic import BaseModel, Field, model_validator
 from datetime import date
 
-from sqlmodel import Session
+from sqlmodel import Session, select
 
-from src.database import engine, reset_db
-from src.schema import TEAuthType, User
+from src.database import get_session, seed
+from src.schema import AuthSession, User
 from src.routers import user
 
 app = FastAPI()
@@ -39,13 +38,37 @@ class Reservation(BaseModel):
         return self
 
 
+@app.post("/login")
+async def login(
+    username: Annotated[str, Form()],
+    password: Annotated[str, Form()],
+    response: Response,
+    session: Session = Depends(  # pyright:ignore[reportCallInDefaultInitializer]
+        get_session
+    ),
+):
+    user = session.exec(select(User).where(User.username == username)).first()
+    if user == None:
+        raise HTTPException(status_code=400, detail="incorrect username or password")
+
+    if user.password != password:  # TODO: SHOULD BE HASHED
+        raise HTTPException(status_code=400, detail="incorrect username or password")
+
+    auth_session = AuthSession(user_id=user.id)
+    session.add(auth_session)
+    session.commit()
+
+    response.set_cookie("sid", str(auth_session.id))
+    return {"session_token": str(auth_session.id)}
+
+
 @app.post("/reserve")
 def reserve(reservation: Reservation):
     print(reservation.model_dump_json())
     return status.HTTP_200_OK
 
 
-@app.get("/nuke")
+@app.get("/seed")
 def nuke():
-    reset_db()
-    return "NUKED"
+    seed()
+    return "Database seeded"

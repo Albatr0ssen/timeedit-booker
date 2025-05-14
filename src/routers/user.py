@@ -1,19 +1,13 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, model_validator
-from sqlmodel import Session
+from sqlmodel import Session, select
 
-from src.database import engine
+from src.database import engine, get_session
 from src.schema import LiuFsAuth, LiuLoginAuth, NodeAuth, TEAuth, TEAuthType, User
-
-
-def true_func():
-    return False
-
 
 router = APIRouter(
     prefix="/user",
     tags=["user"],
-    dependencies=[Depends(true_func)],
     responses={404: {"description": "Not found"}},
 )
 
@@ -24,14 +18,22 @@ class NewUser(BaseModel):
 
 
 @router.post("")
-def add_user(new_user: NewUser):
+def create_user(
+    new_user: NewUser,
+    session: Session = Depends(
+        get_session
+    ),  # pyright:ignore[reportCallInDefaultInitializer]
+):
+    statement = select(User).where(User.username == new_user.username)
+    if session.exec(statement).first() != None:
+        raise HTTPException(status_code=400, detail="username already taken")
+
     user = User(
         username=new_user.username,
         password=new_user.password,
     )
-    with Session(engine) as session:
-        session.add(user)
-        session.commit()
+    session.add(user)
+    session.commit()
 
     # te_auth_type = (TEAuthType.LIU_LOGIN,)
     # te_auth_info = LiuLoginInfo(liu_id="liuid", password="password").model_dump_json()
@@ -39,5 +41,16 @@ def add_user(new_user: NewUser):
 
 
 @router.put("/te-auth")
-def update_auth(te_auth: LiuLoginAuth | NodeAuth | LiuFsAuth):
+def update_auth(
+    te_auth: LiuLoginAuth | NodeAuth | LiuFsAuth,
+    session: Session = Depends(
+        get_session
+    ),  # pyright:ignore[reportCallInDefaultInitializer]
+):
+
+    # Get user using depends or somehting
+    # Update user with new te_auth
+
+    session.commit()
+
     return te_auth.model_dump_json()

@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Annotated, Literal
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
-import uuid
+from uuid import UUID, uuid4
 
 
 class TEAuthType(Enum):
@@ -31,7 +31,12 @@ class LiuFsAuth(BaseModel):
 
 
 class User(SQLModel, table=True):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    username: str = Field(nullable=False)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    username: str = Field(index=True, unique=True, nullable=False)
     password: str = Field(nullable=False)
     te_auth: str | None = Field(default=None)
+
+
+class AuthSession(SQLModel, table=True):
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    user_id: UUID = Field(foreign_key="user.id")

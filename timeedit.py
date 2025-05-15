@@ -21,10 +21,11 @@ end_time = "15:00"
 
 async def main():
     print(f"Trying to resrve '{room_searches}': {date} {start_time}-{end_time}")
-    await reserve_at_22(room_searches, date, start_time, end_time)
+    # await reserve_at_22(room_searches, date, start_time, end_time)
+
+    await reserve_when_available("fe241", "20250515", "08:15", "10:00")
 
 
-# await reserve_when_available("isy", "20250513", "08:15", "10:00")
 # rooms = get_room_ids(session, "Fe")
 # print(get_user_id(session))
 

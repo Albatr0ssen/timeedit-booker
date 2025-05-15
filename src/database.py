@@ -8,7 +8,7 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 engine = create_engine(sqlite_url)
 
 
-def get_session():
+def get_db():
     with Session(engine) as session:
         yield session
 

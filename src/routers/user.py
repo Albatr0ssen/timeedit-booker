@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, model_validator
 from sqlmodel import Session, select
 
-from src.database import engine, get_session
+from src.database import engine, get_db
 from src.schema import LiuFsAuth, LiuLoginAuth, NodeAuth, TEAuth, TEAuthType, User
 
 router = APIRouter(
@@ -21,7 +21,7 @@ class NewUser(BaseModel):
 def create_user(
     new_user: NewUser,
     session: Session = Depends(
-        get_session
+        get_db
     ),  # pyright:ignore[reportCallInDefaultInitializer]
 ):
     statement = select(User).where(User.username == new_user.username)
@@ -44,7 +44,7 @@ def create_user(
 def update_auth(
     te_auth: LiuLoginAuth | NodeAuth | LiuFsAuth,
     session: Session = Depends(
-        get_session
+        get_db
     ),  # pyright:ignore[reportCallInDefaultInitializer]
 ):
 

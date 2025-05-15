@@ -1,8 +1,8 @@
 from enum import Enum
-from typing import Annotated, Literal
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
 from uuid import UUID, uuid4
+from datetime import date
 
 
 class TEAuthType(Enum):
@@ -30,6 +30,12 @@ class LiuFsAuth(BaseModel):
     msis_auth: str
 
 
+class ReservationStatus(Enum):
+    Queued = "queued"
+    Cancelled = "cancelled"
+    Booked = "booked"
+
+
 class User(SQLModel, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     username: str = Field(index=True, unique=True, nullable=False)
@@ -40,3 +46,13 @@ class User(SQLModel, table=True):
 class AuthSession(SQLModel, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     user_id: UUID = Field(foreign_key="user.id")
+
+
+class Reservation(SQLModel, table=True):
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    user_id: UUID = Field(foreign_key="user.id")
+    room_search: str
+    date: date
+    start_time: int
+    end_time: int
+    status: ReservationStatus

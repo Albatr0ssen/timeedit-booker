@@ -10,6 +10,7 @@ Plan
 - Kolla hur många bokade timmar någon har
 - Kolla om en viss bokning har blivit avbokad (kollar om någon avbokar en bokning som skett genom programmet)
 
+https://github.com/fastapi/full-stack-fastapi-template/
 
 Schemagenerator
 - https://cloud.timeedit.net/liu/web/schema/sid=3&l=sv_SE

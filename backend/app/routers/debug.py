@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.database import seed
+from ..database import seed
 
 router = APIRouter(
     prefix="",

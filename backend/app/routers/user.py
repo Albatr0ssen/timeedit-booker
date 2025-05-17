@@ -2,8 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, model_validator
 from sqlmodel import Session, select
 
-from src.database import engine, get_db
-from src.schema import LiuFsAuth, LiuLoginAuth, NodeAuth, TEAuth, TEAuthType, User
+from app.database import engine, get_db
+from ..schema import (
+    LiuFsAuth,
+    LiuLoginAuth,
+    NodeAuth,
+    TEAuth,
+    TEAuthType,
+    User,
+)
 
 router = APIRouter(
     prefix="/user",

@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field, model_validator
 from sqlmodel import Session, select
 from datetime import date, datetime, time
 
-from src.database import engine, get_db
-from src.schema import (
+from ..database import engine, get_db
+from ..schema import (
     Reservation,
     ReservationStatus,
 )

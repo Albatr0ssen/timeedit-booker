@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 import asyncio
 
-from src.helpers import print_response  # pyright:ignore[reportUnusedImport]
-from src.objects import get_rooms, get_user_id  # pyright:ignore[reportUnusedImport]
-from src.reserve import (
+from .helpers import print_response  # pyright:ignore[reportUnusedImport]
+from .objects import get_rooms, get_user_id  # pyright:ignore[reportUnusedImport]
+from .reserve import (
     reserve,  # pyright:ignore[reportUnusedImport]
     reserve_at_22,  # pyright:ignore[reportUnusedImport]
     reserve_when_available,

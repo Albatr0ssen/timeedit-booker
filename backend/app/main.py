@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routers import auth, debug, reservation, user
+from .routers import auth, debug, reservation, user
 
 app = FastAPI()
 

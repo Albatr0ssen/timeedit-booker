@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Session, create_engine
 
-from src.schema import User
+from .schema import User
 
 sqlite_file_name = "data/database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"

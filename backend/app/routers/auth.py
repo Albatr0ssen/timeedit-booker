@@ -2,8 +2,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Form, HTTPException, Response
 from sqlmodel import Session, select
 
-from src.database import get_db
-from src.schema import AuthSession, User
+from ..database import get_db
+from ..schema import AuthSession, User
 
 
 router = APIRouter(

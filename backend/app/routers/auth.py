@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, Form, HTTPException, Response
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
 from sqlmodel import Session, select
 
 from ..database import get_db
@@ -33,4 +33,4 @@ async def login(
     db.commit()
 
     response.set_cookie("sid", str(auth_session.id))
-    return {"session_token": str(auth_session.id)}
+    return {"sid": str(auth_session.id)}

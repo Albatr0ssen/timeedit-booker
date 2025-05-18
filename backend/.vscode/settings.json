@@ -2,5 +2,6 @@
     "recommendations": [
         "detachhead.basedpyright"
     ],
-    "basedpyright.analysis.diagnosticMode": "openFilesOnly"
+    "basedpyright.analysis.diagnosticMode": "openFilesOnly",
+    "editor.defaultFormatter": "ms-python.black-formatter"
 }
